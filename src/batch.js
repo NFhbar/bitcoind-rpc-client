@@ -1,17 +1,14 @@
-import Methods from './methods'
-
 /**
  * @class BatchInterface
  */
-export default class BatchInterface extends Methods {
+export default class BatchInterface {
   /**
    * @constructor
-   * @param {RpcClient} bitcoind
+   * @param {RpcClient} daemon
    */
-  constructor (bitcoind) {
-    super()
+  constructor (daemon) {
 
-    this._bitcoind = bitcoind
+    this._daemon = daemon
 
     this._isCalled = false
     this._batch = []
@@ -51,6 +48,6 @@ export default class BatchInterface extends Methods {
   call (callback) {
     this._isCalledCheck()
     this._isCalled = true
-    return this._bitcoind.batch(this._batch, callback)
+    return this._daemon.batch(this._batch, callback)
   }
 }

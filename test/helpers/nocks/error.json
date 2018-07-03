@@ -1,0 +1,8 @@
+{
+  "result": null,
+  "error": {
+    "code": 401,
+    "message": "Error: JSON-RPC: host=127.0.0.1 port=18332: Request error: connect ECONNREFUSED 127.0.0.1:18332"
+  },
+  "id": "1"
+}

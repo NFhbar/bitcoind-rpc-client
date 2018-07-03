@@ -2,16 +2,13 @@ import http from 'http'
 import https from 'https'
 import makeConcurrent from 'make-concurrent'
 
-import Methods from './methods'
 import BatchInterface from './batch'
 import { asCallback as asNodeCallaback } from 'promise-useful-utils'
-
-let methodId = 0
 
 /**
  * @class RpcClient
  */
-export default class RpcClient extends Methods {
+export default class RpcClient {
   /**
    * @constructor
    * @param {Object} opts
@@ -25,7 +22,6 @@ export default class RpcClient extends Methods {
    * @param {number} [opts.concurrency=Infinity]
    */
   constructor (opts) {
-    super()
 
     this._opts = Object.assign({
       host: '127.0.0.1',
@@ -36,7 +32,7 @@ export default class RpcClient extends Methods {
 
     if (this._opts.concurrency !== Infinity) {
       this._call = makeConcurrent(
-        ::this._call, {concurrency: this._opts.concurrency})
+        this._call, {concurrency: this._opts.concurrency})
     }
   }
 
@@ -94,14 +90,14 @@ export default class RpcClient extends Methods {
       let request
       if (Array.isArray(data)) {
         request = data.map((req) => {
-          return {method: req.method, params: req.params || [], id: methodId++}
+          return {method: req.method, params: req.params}
         })
       } else {
-        request = {method: data.method, params: data.params || [], id: methodId++}
+        request = {method: data.method, params: data.params}
       }
 
       let requestJSON = JSON.stringify(request)
-      let requestErrorMsg = `Bitcoin Core JSON-RPC: host=${this._opts.host} port=${this._opts.port}: `
+      let requestErrorMsg = `JSON-RPC: host=${this._opts.host} port=${this._opts.port}: `
       let requestOpts = {
         host: this._opts.host,
         port: this._opts.port,

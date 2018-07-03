@@ -1,70 +1,42 @@
-# bitcoind-rpc-client
+# rpc-client
 
-[![NPM Package](https://img.shields.io/npm/v/bitcoind-rpc-client.svg?style=flat-square)](https://www.npmjs.org/package/bitcoind-rpc-client)
-[![build status](https://img.shields.io/travis/fanatid/bitcoind-rpc-client.svg?branch=master&style=flat-square)](http://travis-ci.org/fanatid/bitcoind-rpc-client)
-[![Coverage Status](https://img.shields.io/coveralls/fanatid/bitcoind-rpc-client.svg?style=flat-square)](https://coveralls.io/r/fanatid/bitcoind-rpc-client)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
-[![Dependency status](https://img.shields.io/david/fanatid/bitcoind-rpc-client.svg?style=flat-square)](https://david-dm.org/fanatid/bitcoind-rpc-client#info=dependencies)
+[![Build Status](https://travis-ci.org/NFhbar/rpc-client.svg?branch=master)](https://travis-ci.org/NFhbar/rpc-client)
 
-Bitcoind RPC client with blackjack and hookers.
-
-Current rpc client support promises and callbacks.
+Simple RPC client, supports promises and callbacks.
 
 ## Installation
-
+Clone repo:
 ```bash
-npm install bitcoind-rpc-client
+$ git clone git@github.com:NFhbar/rpc-client.git
 ```
 
-## Commands
-
-You can find list of all available commands in [source code](blob/master/src/methods.js).
-
+```bash
+$ npm install
+```
 ## Examples
 
 ### Create client
-
 ```js
-var client = new RpcClient({
+const client = new RpcClient({
   host: '127.0.0.1',
   port: 18332
-});
+})
+```
+
+You can also set the parameters individually:
+```js
 client.set('user', 'bitcoinrpc')
 ```
 
-### getnewaddress with callback
+### Command using `cmd`
 
 ```js
-client.getNewAddress(function (err, result) {
-  console.log(err, result) // null, {result: {...}, error: null}
-})
-```
-
-### getnewaddress with promise
-
-```js
-client.getNewAddress().then(function (result) {
+client.cmd('command').then(function (result) {
   console.log(result) // {result: {...}, error: null}
 })
 ```
 
-### alias of getnewaddress with promise
-
-```js
-client.getnewaddress().then(function (result) {
-  console.log(result) // {result: {...}, error: null}
-})
-```
-
-### getnewaddress using `cmd`
-
-```js
-client.cmd('getnewaddress').then(function (result) {
-  console.log(result) // {result: {...}, error: null}
-})
-```
-
-### batch (array form)
+### Batch (array form)
 
 ```js
 client.batch([
@@ -74,20 +46,6 @@ client.batch([
 .then(function (result) {
   console.log(result) // [{result: {...}, error: null}, {result: {...}, error: null}]
 })
-```
-
-### batch (chained form)
-
-```js
-client.batch()
-  .getInfo()
-  .clear()
-  .getNewAddress('myaccount')
-  .getNewAddress('secondaccount')
-  .call()
-  .then(function (result) {
-    console.log(result) // [{result: {...}, error: null}, {result: {...}, error: null}]
-  })
 ```
 
 ## License
